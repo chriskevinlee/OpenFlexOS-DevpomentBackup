@@ -1,5 +1,6 @@
 Package_List() {
     echo openflexos-configs
+    echo openflexos-dmenu
     echo sddm
     echo mpv
     echo xscreensaver
@@ -96,11 +97,11 @@ pip install vosk
 
 
 ### Installing chriskevinlee's dmenu
-git clone https://github.com/chriskevinlee/dmenu.git
-cd dmenu
-sudo make clean install
-sudo make install
-cd
+# git clone https://github.com/chriskevinlee/dmenu.git
+# cd dmenu
+# sudo make clean install
+# sudo make install
+# cd
 
 
 ### install ohmyposh
