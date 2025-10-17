@@ -3,39 +3,25 @@
 # NOTE: Please fill out the license field for your package! If it is unknown,
 # then please put 'unknown'.
 
-# Maintainer: Your Name <youremail@domain.com>
+# Maintainer: Chris Kevin Lee <youremail@domain.com>
 pkgname=openflexos-dmenu
 pkgver=1.0.0
 pkgrel=1
-epoch=
 pkgdesc="A Custom Dmenu For OpenFlexOS"
 arch=(x86_64)
 url="https://github.com/chriskevinlee/dmenu"
 license=('GPL')
-groups=()
-depends=()
-makedepends=()
-checkdepends=()
-optdepends=()
-provides=()
-conflicts=()
-replaces=()
-backup=()
-options=()
-install=
-changelog=
 source=(https://github.com/chriskevinlee/dmenu/archive/refs/tags/testtag1.tar.gz)
-noextract=()
 sha256sums=('614c48bc690e0b27c6f6bc175d55f0e806761a801a57b1f5227d1c2590a92780')
-validpgpkeys=()
 
 build() {
     cd "${srcdir}/dmenu-testtag1"
-    make
+    make PREFIX=/usr
 }
 
 package() {
     cd "${srcdir}/dmenu-testtag1"
-    make DESTDIR="$pkgdir" install
+    make PREFIX=/usr DESTDIR="$pkgdir" install
+}
 }
 
