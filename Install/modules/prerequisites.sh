@@ -5,7 +5,6 @@ echo "OpenFlexOS has a repository containing all config files. If yes is selecte
 If no is selected, the configs will be downloaded and copied manually, and you will not receive updates."
 read -p "Would you like to use the repository? [y/n]: " yn
 
-
 case "${yn,,}" in
   y|yes)
     if grep -q "^\[openflexos\]" /etc/pacman.conf; then
