@@ -1,72 +1,94 @@
+#!/bin/bash
+
 Package_List() {
-    echo openflexos-configs
-    echo openflexos-dmenu
-    echo sddm
-    echo mpv
-    echo xscreensaver
-    echo feh
-    echo rofi
-    echo arandr
-    echo ttf-nerd-fonts-symbols
-    echo xdg-user-dirs
-    echo alacritty
-    echo lsd
-    echo bat
-    echo pavucontrol-qt
-    echo pipewire-pulse
-    echo git
-    echo qt5-graphicaleffects qt5-quickcontrols2 qt5-svg qt6-multimedia qt6-5compat 
-    echo zsh
-    echo zsh-history-substring-search
-    echo zsh-syntax-highlighting
-    echo zsh-autosuggestions
-    echo wget
-    echo jq
-    echo firefox
-    echo flameshot
-    echo htop
-    echo caja
-    echo xarchiver
-    echo p7zip
-    echo unzip
-    echo polkit-gnome
-    echo sxiv
-    echo qt5ct
-    echo qt6ct
-    echo kvantum-qt5
-    echo lxappearance-gtk3
-    echo materia-gtk-theme
-    echo dunst
-    echo picom
-    echo wmctrl
-    echo xf86-input-libinput xbindkeys sxhkd playerctl
-    echo deepin-calculator
-    echo zenity
-    echo python-psutil
-    echo pacman-contrib
-    echo pkgfile
-    echo gcc
-    echo pkg-config
-    echo python
-    echo meson
-    echo ninja
-    echo xcb-util
-    echo libx11
-    echo pixman
-    echo libdbus
-    echo libconfig
-    echo libepoxy
-    echo libev
-    echo uthash
-    echo base-devel
-    echo git
-    echo gvim
+  cat <<EOF
+openflexos-configs
+openflexos-dmenu
+mousepad
+sddm
+mpv
+xscreensaver
+feh
+rofi
+arandr
+ttf-nerd-fonts-symbols
+xdg-user-dirs
+alacritty
+lsd
+bat
+pavucontrol-qt
+pipewire-pulse
+git
+qt5-graphicaleffects
+qt5-quickcontrols2
+qt5-svg
+qt6-multimedia
+qt6-5compat
+zsh
+zsh-history-substring-search
+zsh-syntax-highlighting
+zsh-autosuggestions
+wget
+jq
+firefox
+flameshot
+htop
+caja
+xarchiver
+p7zip
+unzip
+polkit-gnome
+sxiv
+qt5ct
+qt6ct
+kvantum-qt5
+lxappearance-gtk3
+materia-gtk-theme
+dunst
+picom
+wmctrl
+xf86-input-libinput
+xbindkeys
+sxhkd
+playerctl
+deepin-calculator
+zenity
+python-psutil
+pacman-contrib
+pkgfile
+gcc
+pkg-config
+python
+meson
+ninja
+xcb-util
+libx11
+pixman
+libdbus
+libconfig
+libepoxy
+libev
+uthash
+base-devel
+gvim
+EOF
 }
 
-for package in $(Package_List); do
-    pacman -S --noconfirm --needed "$package"
-done
 
+# Install all
+while read -r package; do
+  sudo pacman -S --noconfirm --needed "$package"
+done < <(Package_List)
+
+# Recheck any failed installs
+while read -r failedpackage; do
+  if ! pacman -Q "$failedpackage" &>/dev/null; then
+    clear
+    echo "$failedpackage failed to install, retrying..."
+    pacman -Syy
+    pacman -S --noconfirm --needed "$failedpackage"
+  fi
+done < <(Package_List)
 
 ### Installing Picom
 cd /tmp
@@ -95,16 +117,5 @@ mv vosk-model-small-en-us-0.15 model
 pip install vosk
 
 
-
-### Installing chriskevinlee's dmenu
-# git clone https://github.com/chriskevinlee/dmenu.git
-# cd dmenu
-# sudo make clean install
-# sudo make install
-# cd
-
-
 ### install ohmyposh
 sudo curl -s https://ohmyposh.dev/install.sh | sudo bash -s -- -d /usr/local/bin
-
-
